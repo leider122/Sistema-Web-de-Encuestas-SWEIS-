@@ -17,17 +17,25 @@ background-size: 100%;'>
 	
 <div  id="banner" class="container-fluid">
 	<div class="row ml-5">
-		<div class="col-md-8 mt-1 text-white text-center">
+		<div class="col-md-4 mt-1 text-white text-center">
 			<a href="https://ingsistemas.cloud.ufps.edu.co/"><img src="../images/logo.png" class="d-block" alt='...' height="70px" width="70px"></a>
 		</div>
-		<div id="fuente" style="display: flex; align-items: center;" class="col-md-4 mt-2 text-white text-right">
+		<div id="fuente" class="col-md-5 mt-4 text-white text-right">
 				<a href="/sesionen2"><button type="button" onclick ="" class="btn text-white" style="font-family:Gill Sans; font-size: 20px;">Encuestas</button></a>
-				<a href="#">
-					<button type="button" class="btn text-white" style="font-family: Gill Sans; font-size: 20px;"><%= correo.split('@')[0] %></button>
-					
+		</div>
+				<div class="col-md-1 mt-4">
+					<div class="dropdown" style="align-right">
+						<button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn text-white dropdown-toggle" style="font-family: Gill Sans; font-size: 20px;"><%= correo.split('@')[0] %></button>
+					<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+						
+						<a class="dropdown-item" href="/cambiocontrasenia">Cambio Contraseña</a>
+						<a class="dropdown-item" href="/logout">Log out</a>
+					</div>
+					</div>
+				</div>
 				</a>
 						
-		</div>	
+			
 				
 	</div>
 </div><br>
@@ -63,9 +71,9 @@ background-size: 100%;'>
 
 
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+		<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
 	<script type="text/javascript" src="js/bootstrap.min.js"></script>
 </body>
 </html>

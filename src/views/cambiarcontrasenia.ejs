@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>SWEIS - Inicia sesión</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+<script  src="../../js/inicio.js"></script>
+  <link href='https://fonts.googleapis.com/css?family=Roboto:400,300,100' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" type="text/css" href="../../css/bootstrap.min.css"/>
+	<link rel="stylesheet" type="text/css" href="../../css/inicio.css"/>
+</head>
+<body style='background-image: url("../images/fondo4.jpg");background-repeat: repeat-x;background-repeat: repeat-y;
+background-size: 100%;'>
+
+<div  id="banner" class="container-fluid">
+	<div class="row ml-5">
+		<div class="col-md-5 text-white text-center">
+			<a href="https://ingsistemas.cloud.ufps.edu.co/"><img src="../../images/logo.png" class="d-block" alt='...' height="70px" width="70px"></a>
+		</div>
+			<div id="fuente" class="col-md-5 text-white text-right"><br>	
+				<a href="/poblacion"><button type="button" onclick ="" class="btn text-white" style="font-family:Gill Sans; font-size: 20px;">Poblaciones</button></a>			
+				<a href="/sesionad2"><button type="button" onclick ="" class="btn text-white" style="font-family:Gill Sans; font-size: 20px;">Encuestas</button></a> 
+			</div>				
+			<div class="col-md-1 mt-4">
+			<div class="dropdown" style="align-right">
+					<button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn text-white dropdown-toggle" style="font-family: Gill Sans; font-size: 20px;"><%= email.split('@')[0] %></button>
+				<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+					
+				<% console.log(email) %>
+					<a class="dropdown-item" href="/cambiocontrasenia">Cambio Contraseña</a>
+					<a class="dropdown-item" href="/logout">Log out</a>
+				</div>
+			</div>
+			</div>
+			
+		</div>
+</div><br>
+    <div id="olvidarcontra">
+    <div class="olvidar  text-center" style="display: flex; align-items: center; text-align: center; justify-content: center;">
+        <div id="">
+          <form action="/cambiocontrasenia" method="post">
+                <b><label for="exampleFormControlInput1" class="form-label">Ingrese su nueva contraseña</label></b>
+                <div class="input-group">
+                    <input ID="txtPassword" name="contrasenia" placeholder="******" type="Password" Class="form-control" required>
+                    <div class="input-group-append">
+                          <button id="show_password" class="btn btn-danger" type="button" onclick="mostrarPassword()"> <span class="fa fa-eye-slash icon"></span> </button>
+                        </div>
+                  </div><br>
+                <button type="submit"  id="enviar" class="btn btn-danger">Cambiar</button>
+                  
+                  
+                
+          </form>
+          </div>
+                </div>
+    </div>
+
+    
+        
+    </div>
+
+</body>
+<script type="text/javascript">
+function mostrarPassword(){
+		var cambio = document.getElementById("txtPassword");
+		if(cambio.type == "password"){
+			cambio.type = "text";
+			$('.icon').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
+		}else{
+			cambio.type = "password";
+			$('.icon').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
+		}
+	} 
+	
+	$(document).ready(function () {
+	//CheckBox mostrar contraseña
+	$('#ShowPassword').click(function () {
+		$('#Password').attr('type', $(this).is(':checked') ? 'text' : 'password');
+	});
+});
+</script>
+</html>
+<!-- partial -->
+<script  src="../../js/script.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+</body>
+</html>

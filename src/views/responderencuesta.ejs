@@ -18,16 +18,26 @@ background-size: 100%;'>
 
 
 	<div  id="banner" class="container-fluid">
-		<div class="row ml-5 ">
-			<div class="col-md-7 mt-1 text-white text-center">
-				<img src="../../images/logo.png" class="d-block" alt='...' height="70px" width="70px">
+		<div class="row ml-5">
+			<div class="col-md-4 mt-1 text-white text-center">
+				<a href="https://ingsistemas.cloud.ufps.edu.co/"><img src="../images/logo.png" class="d-block" alt='...' height="70px" width="70px"></a>
 			</div>
-			<div id="fuente" class="col-md-5 text-white text-center"><br>
-				<a href="/sesionen2"><button type="button" onclick ="" class="btn text-white" style="font-family:Gill Sans; font-size: 20px;">Encuestas</button></a>
-				<button type="button" class="btn text-white" style="font-family: Gill Sans; font-size: 20px;"><%= correo.split('@')[0] %></button>
+			<div id="fuente" class="col-md-5 mt-4 text-white text-right">
+					<a href="/sesionen2"><button type="button" onclick ="" class="btn text-white" style="font-family:Gill Sans; font-size: 20px;">Encuestas</button></a>
+			</div>
+					<div class="col-md-1 mt-4">
+						<div class="dropdown" style="align-right">
+							<button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn text-white dropdown-toggle" style="font-family: Gill Sans; font-size: 20px;"><%= correo.split('@')[0] %></button>
+						<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+							
+							<a class="dropdown-item" href="/cambiocontrasenia">Cambio Contraseña</a>
+							<a class="dropdown-item" href="/logout">Log out</a>
+						</div>
+						</div>
+					</div>
+					</a>
+							
 				
-			</div>
-
 					
 		</div>
 	</div><br>
@@ -81,7 +91,7 @@ background-size: 100%;'>
 			<input type="hidden" name="P" value="<%=0%>">
 			<% }else{let cont=0; %>
 		 <%for(let o= 0; o<opciones.length;o++){%>
-            
+            <div class="form-group">
 			<% if(preguntas[i].id_pregunta==opciones[o].id_pregunta){ %>
                 <% cont++; %> 
 
@@ -89,8 +99,9 @@ background-size: 100%;'>
                 <label><input type="radio" name="O" id="<%=opciones[o].id_opcion%>" value="<%=opciones[o].id_opcion%>" required> <%=opciones[o].opcion%></label><br><% }else{ %> 
 				<%if(preguntas[i].tipopreg=="Selección múltiple"){%>	  
                 <label><input type="checkbox" name="M" id="<%=opciones[o].id_opcion%>" value="<%=opciones[o].id_opcion%>"> <%=opciones[o].opcion%></label><br><% }}%>
-                
+			
             <% } %>
+		</div>
 		<%} %>
 		<%if(preguntas[i].tipopreg=="Selección única"){%>
 		<input type="hidden" name="P" value="<%=cont%>">

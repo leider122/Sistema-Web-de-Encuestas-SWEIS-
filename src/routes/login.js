@@ -7,6 +7,8 @@ const passport = require('passport');
 router.get('/', loginController.mostrar)
 router.post('/inicio', loginController.ini)
 router.post('/nuevacontrasenia', loginController.nc)
+router.post('/cambiocontrasenia',loginController.cc)
+router.get('/cambiocontrasenia',loginController.hcc)
 router.get('/logout', loginController.out)
 router.get('/sesionad2', loginController.se)
 router.get('/olvidocontra', loginController.olv)

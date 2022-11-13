@@ -72,7 +72,7 @@ controllerEncuestas.pub = (req, res) => {
                             
                         }if (err) {
                             res.json(err);}
-                          else{res.redirect('/inicio');}
+                          else{res.redirect('/sesionad2');}
                     })
                 
                })}

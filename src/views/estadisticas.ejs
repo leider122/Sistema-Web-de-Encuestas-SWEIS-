@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Encuesta - SWEIS <%= resp[0].nombre %> 
+		</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+
+	<link rel="stylesheet" type="text/css" href="../../css/bootstrap.min.css"/>
+	<link rel="stylesheet" type="text/css" href="../../css/inicio.css"/>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	
+</head>
+<body style='background-image: url("../images/fondo3.jpg");background-repeat: repeat-x;background-repeat: repeat-y;
+background-size: 100%;'>
+	<script rel="stylesheet" type="text/javascript" src=""></script>
+
+
+	<div  id="banner" class="container-fluid">
+		<div class="row ml-5">
+			<div class="col-md-5 text-white text-center">
+				<a href="https://ingsistemas.cloud.ufps.edu.co/"><img src="../../images/logo.png" class="d-block" alt='...' height="70px" width="70px"></a>
+			</div>
+				<div id="fuente" class="col-md-5 text-white text-right"><br>	
+					<a href="/poblacion"><button type="button" onclick ="" class="btn text-white" style="font-family:Gill Sans; font-size: 20px;">Poblaciones</button></a>			
+					<a href="/sesionad2"><button type="button" onclick ="" class="btn text-white" style="font-family:Gill Sans; font-size: 20px;">Encuestas</button></a> 
+				</div>				
+				<div class="col-md-1 mt-4">
+				<div class="dropdown" style="align-right">
+						<button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn text-white dropdown-toggle" style="font-family: Gill Sans; font-size: 20px;"><%= email.split('@')[0] %></button>
+					<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+						
+						<a class="dropdown-item" href="/cambiocontrasenia">Cambio Contraseña</a>
+						<a class="dropdown-item" href="/logout">Log out</a>
+					</div>
+				</div>
+				</div>
+				
+			</div>
+	</div><br>
+
+
+
+
+<div id="contenido">
+	<div class="text-center">
+		<b><label  id="center" style="font-family:'Helvetica'; font-weight: bold;margin: 0 auto;font-size: 28px; color:#e20319"><%=resp[0].nombre%></label></b><br><br>
+	</div>
+	
+	<label style=" font-family: Times-New-Roman;font-size: 20px; margin-left: 80px; font-weight: bold;">Descripción: </label>
+	<label style=" font-family: Times-New-Roman;font-size: 18px;"><%=resp[0].objetivo%></label>
+<br><br>
+	<div class="row"> 
+		<div class="col-md-4">
+			<label style=" font-family: Times-New-Roman;font-size: 20px; margin-left: 80px; font-weight: bold;">Población: </label>
+			<label style=" font-family: Times-New-Roman;font-size: 18px;"><%=resp[0].poblacion%></label>
+		</div>
+		<div class="col-md-4 text-center">
+			<label style=" font-family: Times-New-Roman;font-size: 20px; font-weight: bold;">Fecha publicación: </label>
+			<label style=" font-family: Times-New-Roman;font-size: 18px;"><%=resp[0].fecha_publicacion.toLocaleString().split(",")[0].split(" ")[0]%></label>	
+		</div>
+		<div class="col-md-4">
+			<label style=" font-family: Times-New-Roman;font-size: 20px; margin-left: 80px; font-weight: bold;">Fecha de cierre: </label>
+			<label style=" font-family: Times-New-Roman;font-size: 18px;"><%=resp[0].fecha_cierre.toLocaleString().split(",")[0].split(" ")[0]%></label>
+		</div>
+	</div>
+	<% for(let i=0; i<preg.length;i++){ %> 
+		<br><hr size="8px" color="black" /><br><div class="row"> 
+		<div class="col-md-8">
+			<b><label style=" font-family: Times-New-Roman;font-size: 20px; font-weight: bold;">Pregunta <%=i+1 %>:  </label></b>
+			<label style=" font-family: Times-New-Roman;font-size: 18px;"><%=preg[i].descripcion_pregunta%></label>
+		</div>
+		<div class="col-md-4">
+			<b><label style=" font-family: Times-New-Roman;font-size: 20px; font-weight: bold;">tipo:  </label></b>
+			<label style=" font-family: Times-New-Roman;font-size: 18px;"><%=preg[i].tipo%></label>
+		</div>
+	</div><br><hr><br>
+	<% if(preg[i].tipo=="Abierta") {%>
+		<div style="margin-right:2%;">
+		<table id="tabla<%=i%>" class="table table-striped table-bordered" style="width:100%;">
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>Respuesta</th>
+				</tr>
+			</thead>
+			<tbody>
+				<% for(let j=0;j<abiertas.length;j++){ %>
+					<% if(preg[i].id_pregunta==abiertas[j].id_pregunta){ %> 
+				
+					<% console.log(abiertas[j].resp.length) %> 
+					<% for(let k=0;k<abiertas[j].resp.length;k++){ %> 
+						<tr>
+					<td><%=k+1 %></td>
+					<td><%=abiertas[j].resp[k]  %> </td>
+				</tr>
+					<% } %> 
+				
+				<% } }%> 
+			</tbody>
+			<tfoot>
+				<tr>
+					<th>#</th>
+					<th>Respuesta</th>
+				</tr>
+			</tfoot>
+		</table>
+		</div>
+	<% }else{ %> 
+
+	 
+		<div class="text-center" style="width:30%;margin-left: 35%;"><canvas  id="myChart<%=i%>"></canvas></div>
+		
+		<script>
+			<%if (preg[i].tipo=="Selección única") {%>
+			<%config[i].config.type='doughnut';%>
+		<%} else {%>
+			<%if(preg[i].tipo=="Selección múltiple")%>
+			<%config[i].config.type='bar';%>
+		<%}%>
+		<% let con={} %>
+			<%con.type=	config[i].config.type%>
+			<%con.data=	config[i].config.data%>
+			let labels<%=i%>="<%=con.data.labels%>"
+			let data<%=i%>="<%=con.data.datasets[0].data%>"
+			data<%=i%>=getarrayInt(data<%=i%>.split(','));
+				let myChart<%=i%> = new Chart(
+				  document.getElementById('myChart'+<%=i%>),{
+    type: "<%=con.type%>",
+    data: {
+        labels: labels<%=i%>.split(','),
+        datasets: [{
+            label: '<%con.data.datasets.label%>',
+            data: data<%=i%>,
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+		responsive:true,
+		maintainAspectRatio:true
+    }
+} );
+
+function getarrayInt(array){
+	let array2=[];
+	for (let i = 0; i < array.length; i++) {
+		array2.push(parseInt(array[i]));
+	}
+	return array2;
+}
+		</script>
+		
+	<% } %> <% } %>
+	<input type="hidden" id="preg" value="<%=preg.length %>">
+</div>
+</div><br><br>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+	$( document ).ready(function() {
+		for (let i = 0; i < <%=preg.length%>; i++) {
+			let x='#tabla'+i
+			$(x).DataTable();
+			
+		}
+		
+	});
+	</script>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+<script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap4.min.js" ></script>
+<script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap4.min.js" ></script>
+	<script type="text/javascript" src="../../js/bootstrap.min.js"></script>
+</body>
+</html>

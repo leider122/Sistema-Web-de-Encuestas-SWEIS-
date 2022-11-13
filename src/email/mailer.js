@@ -2,7 +2,7 @@ const nodemailer = require('nodemailer');
 const { google } = require("googleapis");
 const clienteid="473269953463-qiilb4hs18i5ap5kelq6g3er358schet.apps.googleusercontent.com";
 const clientSecret="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";
-const refreshToken="1//04_0K-q_5_te7CgYIARAAGAQSNwF-L9Ir5ni4jcr4xOj76V5xMwUphZvnY81fWVTkzIH0eEjowqpkNVg-Co08U3cq37Ln5C5csyQ";
+const refreshToken="1//04jZeKQXf0bkNCgYIARAAGAQSNwF-L9IrT24sxVF4PSx3OQFqbpBoXQbm3q0S7sGIwd9aHTzNEY2Uvp5Gr5RO3nZ_6wLmsaW5CDs";
 const redirectURI="https://developers.google.com/oauthplayground";
 
 const OAuth2client= new google.auth.OAuth2(

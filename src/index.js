@@ -17,6 +17,7 @@ const encuestasRoutes = require('./routes/encuesta');
 const poblacionRoutes = require('./routes/poblacion');
 const inicioRoutes = require('./routes/inicio');
 const encasigRoutes = require('./routes/encuestasasignadas');
+const estadisticasRoutes = require('./routes/estadisticas');
 const { urlencoded } = require('express');
 
 // Settings
@@ -49,7 +50,7 @@ app.use('/encuestas', encuestasRoutes);
 app.use('/poblacion', poblacionRoutes);
 app.use('/inicio', inicioRoutes);
 app.use('/encuestas-por-llenar', encasigRoutes);
-
+app.use('/estadisticas', estadisticasRoutes);
 // Static Files
 app.use(express.static(path.join(__dirname, 'public')))
 

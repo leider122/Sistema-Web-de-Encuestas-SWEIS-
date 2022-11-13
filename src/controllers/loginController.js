@@ -24,16 +24,17 @@ controller.nc =  (req, res) => {
     const data = req.body;
     let contrasenia = generarContraseña(data.correo);
     let contra = encriptar(contrasenia);
-    console.log(data.correo);
+    //console.log(data.correo);
           req.getConnection((error, conn) =>{
             conn.query('Select correo_electronico from encuestado', (err, correos) =>{
                 if(estaEncuestado(data.correo,correos)){
                     conn.query('UPDATE encuestado SET contrasena="'+contra+'" WHERE correo_electronico="'+data.correo+'"', (err, rows) =>{
                         console.log(generarinfocorreos(data.correo,contrasenia));
                     })
-                console.log("esta")
+                //console.log("esta")
                 }else{
-                console.log("no esta")}
+                //console.log("no esta")
+                }
             })
               
               res.render('enviocontraseña')
@@ -41,9 +42,52 @@ controller.nc =  (req, res) => {
       
 };
 
+controller.cc =  (req, res) => {
+    var autenticado=req.isAuthenticated()
+    if(autenticado){
+    console.log("cambiando contraseña")
+    let email=req.user.email;
+    const data = req.body;
+    let contra = encriptar(data.contrasenia);
+    //console.log(data.contrasenia);
+          req.getConnection((error, conn) =>{
+                conn.query('UPDATE encuestado SET contrasena="'+contra+'" WHERE correo_electronico="'+email+'"', (err, rows) =>{
+                    console.log(generarinfocorreos(email,data.contrasenia));
+                })
+                req.flash('inic','Se ha cambiado exitosamente la contraseña')
+                console.log('este es el email: '+email)
+                console.log("volviendo al inicio")
+                conn.query('SELECT rol from encuestado where correo_electronico="'+email+'"', (err, rows) =>{
+                    if(rows[0].rol==1)
+                        res.redirect('/sesionad2')
+                    else
+                        res.redirect('/sesionen2')
+                })
+                
+          })
+    }else{
+        res.redirect('/')
+    }
+};
+
+controller.hcc =  (req, res) => {
+    var autenticado=req.isAuthenticated()
+    if(autenticado){ 
+    let email=req.user.email;
+          req.getConnection((error, conn) =>{
+            console.log("mostrar vista de contraseña")
+                res.render('cambiarcontrasenia',{
+                    email:email
+                })
+          })
+    }else{
+        res.redirect('/')
+    }
+};
+
 async function generarinfocorreos(correo,contrasenia){
-    console.log(correo)
-    console.log(contrasenia)
+    //console.log(correo)
+    //console.log(contrasenia)
     let info=await transport.sendMail({
         from: '"SWEIS UFPS 📝📈📋" <sweisufps@gmail.com>', // sender address
         to: correo, // list of receivers
@@ -117,7 +161,8 @@ controller.se =  (req, res) => {
                         } else {
                             res.render('inicio', {
                                 encuestas:rows,
-                                email: req.user.email
+                                email: req.user.email,
+                                menssge:req.flash('inicio')
                             })
                             
                         }
@@ -206,19 +251,22 @@ controller.se2 =  (req, res) => {
 };
 
 controller.ini =  (req, res) => {
+    console.log("estamos en el controlador inicio")
     var autenticado=req.isAuthenticated()
     if(autenticado){
         let email=req.user.email;
-        const data = req.body;
+        console.log('este es el email 2: '+email)
         req.getConnection((error, conn) =>{
             conn.query('SELECT * FROM encuesta', (err, rows) =>{
                 if (err) {
                     res.json(err);
                 } else {
-                    
+                    console.log('este es el email 3: '+email)
+                    console.log("vamos a renderizar la pagina de inicio")
                         res.render('inicio', {
                             encuestas:rows,
-                            email:email
+                            email:email,
+                            menssage:req.flash('inicio')
                         })
                     
                     
@@ -239,7 +287,6 @@ function getFechaHoy(){
 
     var today = now.getFullYear()+"-"+(month)+"-"+(day) ;
 
-    //console.log(today)
 
     return today
 }
