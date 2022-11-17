@@ -26,7 +26,7 @@ controllerEncuestas.elim = (req, res) => {
     req.getConnection((err, conn) => {
         const {id} = req.params;
         conn.query('DELETE FROM encuesta WHERE id_encuesta = ?', [id], (err, rows) =>{
-            res.redirect('/inicio');
+            res.redirect('/sesionad2');
         })
     })}else{
         res.redirect('/')
@@ -39,7 +39,7 @@ controllerEncuestas.edit = (req, res) => {
         const {id} = req.params;
         const newData = req.body;
         conn.query('UPDATE encuesta set ? WHERE id_encuesta = ?', [newData,id], (err, rows) =>{
-            res.redirect('/inicio');
+            res.redirect('/sesionad2');
         })
     })
 }else{
@@ -56,53 +56,35 @@ controllerEncuestas.pub = (req, res) => {
     const data = req.body;
     req.getConnection((err, conn) => {
         conn.query('INSERT INTO encuesta (nombre,objetivo,fecha_creación,fecha_publicacion,fecha_cierre,población) values ("'+data.titulo+'","'+data.descripcion+'","'+data.fecha_hoy+'","'+data.fecha_ini+'","'+data.fecha_fin+'","'+data.poblacion+'")', (errO, rows) =>{})
-        
         if(data.cantidadpreguntas.length==1){    
         conn.query('SELECT id_encuesta FROM encuesta WHERE nombre="'+data.titulo+'"', (error, id) =>{
-               
                 conn.query('INSERT INTO pregunta (descripcion,obligatoriedad,tipo,encuesta) values ("'+data.pregunta+'","'+1+'","'+data.tipo+'","'+id[0].id_encuesta+'")', (err, rows) =>{})
                       conn.query("SELECT id_pregunta FROM pregunta WHERE descripcion='"+data.pregunta+"'", (er, idp) =>{
                         for(let o=0;o<parseInt(data.cantidadesopciones);o++){
                             req.getConnection((err, cox) => {
-                            cox.query('INSERT INTO opcion (descripcion,pregunta) values ("'+data.opciones[o]+'","'+idp[0].id_pregunta+'")', (err, rows) =>{
-                                
-                            
+                            cox.query('INSERT INTO opcion (descripcion,pregunta) values ("'+data.opciones[o]+'","'+idp[0].id_pregunta+'")', (err, rows) =>{})
                             })
-                            })
-                            
                         }if (err) {
                             res.json(err);}
                           else{res.redirect('/sesionad2');}
                     })
-                
                })}
                 else{for(let i=0;i<data.pregunta.length;++i){
-                    
                     conn.query('SELECT id_encuesta FROM encuesta WHERE nombre="'+data.titulo+'"', (error, id) =>{
-                    
                     conn.query('INSERT INTO pregunta (descripcion,obligatoriedad,tipo,encuesta) values ("'+data.pregunta[i]+'","'+1+'","'+data.tipo[i]+'","'+id[0].id_encuesta+'")', (err, rows) =>{})
-                         
                     conn.query("SELECT id_pregunta FROM pregunta WHERE descripcion='"+data.pregunta[i]+"'", (er, idp) =>{
-
                         if(parseInt(data.tipo[i])!=3){
                             for(let o=0;o<parseInt(data.cantidadesopciones[i]);++o){
                                     conn.query('INSERT INTO opcion (descripcion,pregunta) values ("'+data.opciones[indice]+'","'+idp[0].id_pregunta+'")', (err, rows) =>{
-                                        
                                     })
                                     indice+=1
                                 }
-                        }
-                            
+                        }   
                         })
-                    
                     })}if (err) {
                         res.json(err);}
-                      else{res.redirect('/inicio');}
+                      else{res.redirect('/sesionad2');}
             }
-                
-                
-            
-        
         conn.query('SELECT * from encuestado_poblacion where id_poblacion='+ data.poblacion, (errO, rows) =>{
             try {
                 for (let i = 0; i < rows.length; i++) {
@@ -111,7 +93,6 @@ controllerEncuestas.pub = (req, res) => {
             } catch (error) {
                // console.log(errO)
             }
-            
         })
     })
 }else{
@@ -119,8 +100,8 @@ controllerEncuestas.pub = (req, res) => {
 }
 }
 
-async function generarinfocorreos(correo){
 
+async function generarinfocorreos(correo){
     var info=await transport.sendMail({
         from: '"SWEIS UFPS 📝📈📋" <sweisufps@gmail.com>', // sender address
         to: correo, // list of receivers
@@ -200,33 +181,25 @@ controllerEncuestas.enviar =  (req, res) => {
     req.getConnection((error, conn) =>{
         conn.query('INSERT INTO encuesta_contestada (fecha_contestada,id_encuesta,encuestado) values ("'+data.fecha_hoy+'","'+data.id_encuesta+'","'+email+'")', (err, rows) =>{
             conn.query('SELECT id_resp_enc FROM encuesta_contestada WHERE id_encuesta='+data.id_encuesta+' AND '+'encuestado="'+email+'"', (error, id) =>{
-                
                 let x=0;
                 for(let i=0;i<data.P.length;i=i+3){
-                    
-                    conn.query('INSERT INTO pregunta_contestada (resp_enc,id_pregunta) values ("'+id[0].id_resp_enc+'","'+data.P[i]+'")', (err, rows) =>{
-                        
+                    conn.query('INSERT INTO pregunta_contestada (resp_enc,id_pregunta) values ("'+id[0].id_resp_enc+'","'+data.P[i]+'")', (err, rows) =>{ 
                         conn.query('SELECT id_pregunta_contestada FROM pregunta_contestada WHERE resp_enc='+id[0].id_resp_enc+' AND id_pregunta='+data.P[i], (error, id2) =>{
                             console.log(data.O)
                             if (err) 
                             res.json(err);
-                                
                                 if(data.P[i+1]=='Abierta'){
                                     console.log("es abierta")
-                                    conn.query('INSERT INTO opcion_respuesta (pregunta_contestada,descripcion_Abierta) values ("'+id2[0].id_pregunta_contestada+'","'+data.O[x]+'")', (err, rows) =>{
-                                        
+                                    conn.query('INSERT INTO opcion_respuesta (pregunta_contestada,descripcion_Abierta) values ("'+id2[0].id_pregunta_contestada+'","'+data.O[x]+'")', (err, rows) =>{ 
                                     })
                                     x=x+1;
                                     }else{console.log("no es abierta")
                                     conn.query('INSERT INTO opcion_respuesta (pregunta_contestada,id_opcion) values ("'+id2[0].id_pregunta_contestada+'","'+data.O[x]+'")', (err, rows) =>{
-                                        
                                     })
                                     x=x+1;
                                 }
-                            
                         })
                     })
-                    
                 }
                 for(let i=1;i<data.M.length;i++){
                     conn.query('SELECT pregunta FROM opcion WHERE id_opcion='+data.M[i], (error, id4) =>{

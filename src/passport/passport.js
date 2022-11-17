@@ -13,9 +13,9 @@ module.exports = function(passport){
         passReqToCallback:true
     },function(req,email,password,done){
         var config = {
-            host: 'localhost',
+            host: '34.28.95.115',
             user: 'root',
-            password: '',
+            password: 'sweis2022ufps',
             port: 3306,
             database: 'sweis'
         };

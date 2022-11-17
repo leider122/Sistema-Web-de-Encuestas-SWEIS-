@@ -34,12 +34,15 @@ controller.save = (req, res) => {
         let email=req.user.email;
         const data = req.body;
         let correos=data.correos.split(",");
-        if(correos[0]==null){
-
+        console.log(data)
+        if(correos[0]!=null){
         let tamanio=correos.length
+        console.log("El tamaño es: "+tamanio)
         req.getConnection((err, conn) => {
             conn.query('INSERT INTO poblacion (nombre,tamanio) values ("'+data.nombre+'",'+tamanio+')', (err, rows) =>{
+                //console.log(err);
                 conn.query('SELECT id_poblacion FROM poblacion WHERE nombre="'+data.nombre+'"', (err, id) =>{
+                    console.log("")
                     for(let i=0;i<correos.length;++i){
                         let contra1=generarContraseña(correos[i]);
                         let contra=encriptar(contra1);
