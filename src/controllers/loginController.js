@@ -139,7 +139,7 @@ controller.olv =  (req, res) => {
 };
 
 controller.se =  (req, res) => {
-    //console.log("pasa")
+    //
     var autenticado=req.isAuthenticated()
     try {
         var type=req.user.type;
@@ -149,7 +149,7 @@ controller.se =  (req, res) => {
     
     if(autenticado&&type==1){
        
-        
+        console.log(req.user)
 //            const data = req.body;
         req.getConnection((error, conn) =>{
 //            conn.query('Select * from administrador', (err, rows) =>{

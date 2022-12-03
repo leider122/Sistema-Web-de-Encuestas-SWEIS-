@@ -37,16 +37,19 @@ background-size: 100%;'>
 				
 			</div>
 	</div><br>
+<form action="/poblacion/cons" method="post">
+	<input type="text" name="consulta">
+	<a href=""><button type="submit"></button></a>
+</form>
 
-
-<div style="margin: 70px">
-	<div  class="input-group mb-3" >
-			  <input type="search" class="form-control" placeholder="Search" aria-describedby="basic-addon2"> 
-			  <div class="input-group-append">
-			    <button type="button" style="background-color:#e20319; font-size: 16px" class="btn text-white">Buscar</button>
-			  </div>
-			</div>
+	<% if(encuestas.length==0){ %>
+		<div style="font-size: 40px">
+		<br><br>
+		<div style="border: 1px solid #b81919;" align="center"><H1>No hay encuestas registradas</H1></Div> 
+			<% } else{%> 
+	<h2 align="center">Encuestas Asignadas</h2> <br>
 </div>
+	<% } %> 
 
 <%for(let i=0; i<encuestas.length;i++){%>
 <div id="contenido" style="width:40%" >

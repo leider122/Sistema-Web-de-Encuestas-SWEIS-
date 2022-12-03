@@ -28,10 +28,11 @@ app.set('views', path.join(__dirname, 'views'));
 // Middlewares
 app.use(morgan('dev'));
 app.use(myConnection(mysql, {
-    host: '34.28.95.115',
+    //host: '34.28.95.115',
+    host: 'localhost',
     user: 'root',
    //password: 'bX!jPPRPTg32cSYH',
-    password: 'sweis2022ufps',   
+    //password: 'sweis2022ufps',   
     port: 3306,
     database: 'sweis'
 }, 'single'))
@@ -39,8 +40,8 @@ app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(session({
     secret:'lyjymslm3x100pre',
-    resave: false,
-    saveUninitialized:false
+    resave: true,
+    saveUninitialized:true
 }));
 app.use(flash());
 app.use(passport.initialize());

@@ -80,6 +80,7 @@ background-size: 100%;'>
 <br><br><br>
 		<div class="row">
 			<div  style="margin-top: 1.3%;" class=" col-md-3 form-group text-center">
+				<input type="hidden" id="cantidad" value="0">
 			<select id="tipo" class="form-select"  aria-label="Default select example" placeholder="Opciones de respuestas">
 				<% for (let i=0; i< tipos.length ; ++i) {%>
 					<option value="<%=tipos[i].id_tipo_pregunta%>"><%=tipos[i].descripcion%></option>

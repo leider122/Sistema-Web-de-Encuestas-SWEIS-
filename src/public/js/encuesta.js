@@ -1,6 +1,7 @@
 function agregarresp(y){
     let x=document.getElementById(y+"").value
-
+    let cantidad=parseInt(document.getElementById("cantidad").value)
+    cantidad-=1;
     let cont=`<input name="cantidadesopciones" type="hidden" value="`+x+`"></div>`
     if(x<=0){
         cont+="<div class='col' id='error' ><label class='text-center mt-4 mb-4 ml-4'>" +
@@ -9,7 +10,7 @@ function agregarresp(y){
         else{
           for(var i=1;i<=x;i++){
             cont+=`<br><div class='form-check form-check' style='margin-left:20px'><input class="form-check-input" type="radio" name="respuesta" id="inlineRadio1" value="option1">
-            <input name="opciones" class="form-check-label" for="inlineRadio1" placeholder="Ingrese respuesta"></div>`
+            <input name="pregunta`+cantidad+`" class="form-check-label" for="inlineRadio1" placeholder="Ingrese respuesta"></div>`
           }
         }
 
@@ -19,7 +20,8 @@ function agregarresp(y){
 
 function agregarresp2(y){
     let x=document.getElementById(y+"").value
-
+    let cantidad=parseInt(document.getElementById("cantidad").value)
+    cantidad-=1;
     let cont=`<input name="cantidadesopciones" type="hidden" value="`+x+`"></div>`
     if(x<=0){
         cont+="<div class='col' id='error' ><label class='text-center mt-4 mb-4 ml-4'>" +
@@ -29,7 +31,7 @@ function agregarresp2(y){
           for(var i=1;i<=x;i++){
             cont+=`<br><div class="form-check form-check" style="margin-left:20px">
                   <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio1" value="option1">
-                  <input name="opciones" class="form-check-label" for="inlineCheck1" placeholder="Ingrese respuesta">
+                  <input name="pregunta`+cantidad+`" class="form-check-label" for="inlineCheck1" placeholder="Ingrese respuesta">
             </div>`
           }
         }
@@ -42,6 +44,9 @@ function agregarresp2(y){
 function agregarpregunta(){
     let z=document.getElementById("tipo").value
     let x=encontrarultimoid();
+    let cantidad=parseInt(document.getElementById("cantidad").value)
+    document.getElementById("cantidad").value=cantidad+1;
+
     let cont=""
     if(z==1){
     cont+=`<br><div name="preguntaU" class="form-group">
@@ -49,8 +54,8 @@ function agregarpregunta(){
 			<div id="contenido4">
 				<div class="row" style="margin-top: 5px;">
 					<div class="col-md-9">
-				<input name="pregunta" type="text" placeholder="Formule la pregunta" class="confondo" style="-webkit-border-radius:12px;	-moz-border-radius:5px;border-radius:5px; width: 400px; border-bottom:#FFFFFF; border-top: #FFFFFF; border-right:#FFFFFF ; border-left:#FFFFFF;background-color: #FFFFFF; margin-left:20px" required>
-				<input name="tipo" type="hidden" value="1">	
+				<input name="pregunta`+cantidad+`" type="text" placeholder="Formule la pregunta" class="confondo" style="-webkit-border-radius:12px;	-moz-border-radius:5px;border-radius:5px; width: 400px; border-bottom:#FFFFFF; border-top: #FFFFFF; border-right:#FFFFFF ; border-left:#FFFFFF;background-color: #FFFFFF; margin-left:20px" required>
+				<input name="pregunta`+cantidad+`" type="hidden" value="1">	
                 </div>
 					
 				</div>
@@ -69,8 +74,8 @@ function agregarpregunta(){
 		<div id="contenido4">
 			<div class="row" style="margin-top: 5px;">
 				<div class="col-md-1">
-				<input name="pregunta" type="text" placeholder="Formule la pregunta" class="confondo" style="-webkit-border-radius:12px;	-moz-border-radius:5px;border-radius:5px; width: 400px; border-bottom:#FFFFFF; border-top: #FFFFFF; border-right:#FFFFFF ; border-left:#FFFFFF;background-color: #FFFFFF; margin-left:20px" required>
-				<input name="tipo" type="hidden" value="2">
+				<input name="pregunta`+cantidad+`" type="text" placeholder="Formule la pregunta" class="confondo" style="-webkit-border-radius:12px;	-moz-border-radius:5px;border-radius:5px; width: 400px; border-bottom:#FFFFFF; border-top: #FFFFFF; border-right:#FFFFFF ; border-left:#FFFFFF;background-color: #FFFFFF; margin-left:20px" required>
+				<input name="pregunta`+cantidad+`" type="hidden" value="2">
                 </div>
 			</div>
 		</div>
@@ -87,11 +92,12 @@ function agregarpregunta(){
     }else if(z==3){
         cont+=`<br>
 <div id="preguntaA">
+<input name="cantidadpreguntas" type="hidden" value="`+x+`"></div>
 	<div id="contenido4">
 		<div class="row" style="margin-top: 5px;">
 			<div class="col-md-1">
-				<input name="pregunta" type="text" placeholder="Formule la pregunta" class="confondo" style="width: 400px; border-bottom:#FFFFFF; border-top: #FFFFFF; border-right:#FFFFFF ; border-left:#FFFFFF;background-color: #ffffff; margin-left:20px" required>
-                <input name="tipo" type="hidden" value="3">
+				<input name="pregunta`+cantidad+`" type="text" placeholder="Formule la pregunta" class="confondo" style="width: 400px; border-bottom:#FFFFFF; border-top: #FFFFFF; border-right:#FFFFFF ; border-left:#FFFFFF;background-color: #ffffff; margin-left:20px" required>
+                <input name="pregunta`+cantidad+`" type="hidden" value="3">
 			</div>
 		</div>
 		<br>
@@ -104,8 +110,6 @@ function agregarpregunta(){
   
     let y=x+1;	
     cont+=`<div id="preg`+y+`"></div>`
-    console.log(x)
-    console.log(y)
     document.getElementById("preg"+x).innerHTML=cont    
 }
 
