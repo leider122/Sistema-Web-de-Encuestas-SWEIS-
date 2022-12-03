@@ -18,13 +18,26 @@ background-size: 100%;'>
 
 	<div  id="banner" class="container-fluid">
 		<div class="row ml-5">
-			<div class="col-md-5 text-white text-center">
+			<div class="col-md-3 text-white text-center">
 				<a href="https://ingsistemas.cloud.ufps.edu.co/"><img src="../../images/logo.png" class="d-block" alt='...' height="70px" width="70px"></a>
 			</div>
-				<div id="fuente" class="col-md-5 text-white text-right"><br>	
-					<a href="/poblacion"><button type="button" onclick ="" class="btn text-white" style="font-family:Gill Sans; font-size: 20px;">Poblaciones</button></a>			
-					<a href="/sesionad2"><button type="button" onclick ="" class="btn text-white" style="font-family:Gill Sans; font-size: 20px;">Encuestas</button></a> 
-				</div>				
+				<div id="fuente" class="col-md-6 text-white text-right"><br>	
+					<a href="/poblacion"><button type="button" onclick ="" class="btn text-white" style="font-family:Gill Sans; font-size: 20px;">Poblaciones</button></a>
+				</div>	
+				<div id="fuente" class="col-md-1 mr-3 text-white text-right"><br>	
+					
+				<div class="dropdown" style="align-right">
+					<button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn text-white dropdown-toggle" style="font-family: Gill Sans; font-size: 20px;">Encuestas</button>
+				<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+					<a href="/sesionad2"><button type="button" onclick ="" class="btn">Todas</button></a> <br>
+					<a href="/activas"><button type="button" onclick ="" class="btn">Activas</button></a> <br>
+					<a href="/finalizadas"><button type="button" onclick ="" class="btn">Finalizadas</button></a> 
+				</div>
+			</div>
+					
+				</div>	
+				
+				
 				<div class="col-md-1 mt-4">
 				<div class="dropdown" style="align-right">
 						<button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn text-white dropdown-toggle" style="font-family: Gill Sans; font-size: 20px;"><%= email.split('@')[0] %></button>
@@ -37,22 +50,18 @@ background-size: 100%;'>
 				
 			</div>
 	</div><br>
-<form action="/poblacion/cons" method="post">
-	<input type="text" name="consulta">
-	<a href=""><button type="submit"></button></a>
-</form>
 
 	<% if(encuestas.length==0){ %>
 		<div style="font-size: 40px">
 		<br><br>
 		<div style="border: 1px solid #b81919;" align="center"><H1>No hay encuestas registradas</H1></Div> 
 			<% } else{%> 
-	<h2 align="center">Encuestas Asignadas</h2> <br>
+	<h2 align="center">Catalogo de encuestas</h2> <br>
 </div>
 	<% } %> 
 
 <%for(let i=0; i<encuestas.length;i++){%>
-<div id="contenido" style="width:40%" >
+<div id="contenido" style="width:40% ;background-color: #8885852c" >
 	<div class="row"> 
 		
 			<div class="col-md-9"><a style="color:#e20319" href="encuestas/ver/<%=encuestas[i].id_encuesta%>">
@@ -76,6 +85,12 @@ background-size: 100%;'>
 	</div>
 	<div class="row">
 		<div class="col-md-9" >
+			<% if(parseInt(cantr[i].cantidad)>=parseInt(cantp[i].cantidad)*0.5){ %> 
+			<label style="margin-left:6%" for=""><b>Valida:</b> Si</label>
+			<% }else{ %> 
+			<label style="margin-left:6%" for=""><b>Valida:</b> No</label>
+			<% } %> 
+		<br>
 			<label style="margin-left:6%" for=""><b>Feche de creación:</b> <%= encuestas[i].fecha_creación.toLocaleString().split(",")[0].split(" ")[0]%></label>
 		<br>
 		<label style="margin-left:6%" for=""><b>Feche de Publicación:</b> <%= encuestas[i].fecha_publicacion.toLocaleString().split(",")[0].split(" ")[0]%></label>

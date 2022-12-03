@@ -13,10 +13,10 @@ module.exports = function(passport){
         passReqToCallback:true
     },function(req,email,password,done){
         var config = {
-            //host: '34.28.95.115',
-            host: 'localhost',
+            host: '34.28.95.115',
+            //host: 'localhost',
             user: 'root',
-            //password: 'sweis2022ufps',
+            password: 'sweis2022ufps',
             port: 3306,
             database: 'sweis'
         };

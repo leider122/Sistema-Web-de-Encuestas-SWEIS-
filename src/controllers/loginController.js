@@ -93,7 +93,7 @@ async function generarinfocorreos(correo,contrasenia){
         to: correo, // list of receivers
         subject: "Cambio de Contraseña", // Subject line
         text: "Hola, se ha cambiado la contraseña en el Sistema Web de Encuesta de Ingenieria de Sistemas - SWEIS, tus nuevas credenciales son: \n correo: "+correo+"\n contraseña: "+contrasenia, // plain text body
-        html: "<img src='https://i.ibb.co/bQKsXBX/banner.png' alt='logo'><p>Hola, se ha cambiado la contraseña en el Sistema Web de Encuesta de Ingenieria de Sistemas - <b>SWEIS UFPS<b></p> <br> <p><a href='http://localhost:3000/'>Ingresa aquí</a> con las nuevas credenciales y verificar si tienes encuestas por llenar:</p> <br> <b>correo:</b> "+correo+"<br> <b>contraseña:</b> "+contrasenia, // html body
+        html: "<img src='https://i.ibb.co/bQKsXBX/banner.png' alt='logo'><p>Hola, se ha cambiado la contraseña en el Sistema Web de Encuesta de Ingenieria de Sistemas - <b>SWEIS UFPS<b></p> <br> <p><a href='https://crafty-biplane-368819.uc.r.appspot.com/'>Ingresa aquí</a> con las nuevas credenciales y verificar si tienes encuestas por llenar:</p> <br> <b>correo:</b> "+correo+"<br> <b>contraseña:</b> "+contrasenia, // html body
       });
       return info
     //leideryesidmm@ufps.edu.co,jheyneralexanderld@ufps.edu.co,matildealexandraal@ufps.edu.co
@@ -155,17 +155,26 @@ controller.se =  (req, res) => {
 //            conn.query('Select * from administrador', (err, rows) =>{
     
 //            if(data.correo.toString()==rows[0].correo&&data.contrasena.toString()==rows[0].contrasena4){
-                    conn.query('SELECT * FROM encuesta', (err, rows) =>{
+                    conn.query('SELECT * FROM encuesta order by id_encuesta', (err, rows) =>{
+                        conn.query('SELECT e.id_encuesta, COUNT(ec.id_encuesta) as "cantidad" from encuesta e left join encuesta_contestada ec on ec.id_encuesta=e.id_encuesta GROUP by e.id_encuesta order by e.id_encuesta', (err, cantr) =>{
+                            conn.query('SELECT e.id_encuesta,p.id_poblacion,count(ep.id_encuestado_poblacion) as "cantidad" from encuesta e join poblacion p on p.id_poblacion=e.población join encuestado_poblacion ep on p.id_poblacion=ep.id_poblacion group by e.id_encuesta', (err, cantp) =>{
+                            //let Evalidas=encuestavalida(cantp,cantr);
+
+
                         if (err) {
                             res.json(err);
                         } else {
                             res.render('inicio', {
                                 encuestas:rows,
                                 email: req.user.email,
+                                cantr:cantr,
+                                cantp:cantp,
                                 menssge:req.flash('inicio')
                             })
                             
                         }
+                    })
+                    })
                     })
 //                }else{
 //                  res.render('index', {
@@ -184,6 +193,106 @@ controller.se =  (req, res) => {
     
 };
 
+controller.activas =  (req, res) => {
+    //
+    var autenticado=req.isAuthenticated()
+    
+    
+       if(autenticado){
+        console.log(req.user)
+//            const data = req.body;
+        req.getConnection((error, conn) =>{
+//            conn.query('Select * from administrador', (err, rows) =>{
+    
+//            if(data.correo.toString()==rows[0].correo&&data.contrasena.toString()==rows[0].contrasena4){
+                    conn.query('SELECT * FROM encuesta where fecha_cierre>="'+getFechaHoy()+'" order by id_encuesta', (err, rows) =>{
+                        conn.query('SELECT e.id_encuesta, COUNT(ec.id_encuesta) as "cantidad" from encuesta e left join encuesta_contestada ec on ec.id_encuesta=e.id_encuesta where fecha_cierre>="'+getFechaHoy()+'" GROUP by e.id_encuesta order by e.id_encuesta', (err, cantr) =>{
+                            conn.query('SELECT e.id_encuesta,p.id_poblacion,count(ep.id_encuestado_poblacion) as "cantidad" from encuesta e join poblacion p on p.id_poblacion=e.población join encuestado_poblacion ep on p.id_poblacion=ep.id_poblacion where fecha_cierre>="'+getFechaHoy()+'" group by e.id_encuesta', (err, cantp) =>{
+                            //let Evalidas=encuestavalida(cantp,cantr);
+
+
+                        if (err) {
+                            res.json(err);
+                        } else {
+                            res.render('inicio', {
+                                encuestas:rows,
+                                email: req.user.email,
+                                cantr:cantr,
+                                cantp:cantp,
+                                menssge:req.flash('inicio')
+                            })
+                            
+                        }
+                    })
+                    })
+                    })
+//                }else{
+//                  res.render('index', {
+//                   })
+//                }
+                    
+//            })
+        })}else{
+            res.redirect('/')
+            
+        }
+        
+        
+
+    
+};
+
+controller.finalizadas =  (req, res) => {
+    //
+    var autenticado=req.isAuthenticated()
+    
+       if(autenticado){
+        console.log(req.user)
+//            const data = req.body;
+        req.getConnection((error, conn) =>{
+//            conn.query('Select * from administrador', (err, rows) =>{
+    
+//            if(data.correo.toString()==rows[0].correo&&data.contrasena.toString()==rows[0].contrasena4){
+                    conn.query('SELECT * FROM encuesta where fecha_cierre<"'+getFechaHoy()+'" order by id_encuesta', (err, rows) =>{
+                        conn.query('SELECT e.id_encuesta, COUNT(ec.id_encuesta) as "cantidad" from encuesta e left join encuesta_contestada ec on ec.id_encuesta=e.id_encuesta where fecha_cierre<"'+getFechaHoy()+'" GROUP by e.id_encuesta order by e.id_encuesta', (err, cantr) =>{
+                            conn.query('SELECT e.id_encuesta,p.id_poblacion,count(ep.id_encuestado_poblacion) as "cantidad" from encuesta e join poblacion p on p.id_poblacion=e.población join encuestado_poblacion ep on p.id_poblacion=ep.id_poblacion where fecha_cierre<"'+getFechaHoy()+'" group by e.id_encuesta', (err, cantp) =>{
+                            //let Evalidas=encuestavalida(cantp,cantr);
+
+
+                        if (err) {
+                            res.json(err);
+                        } else {
+                            res.render('inicio', {
+                                encuestas:rows,
+                                email: req.user.email,
+                                cantr:cantr,
+                                cantp:cantp,
+                                menssge:req.flash('inicio')
+                            })
+                            
+                        }
+                    })
+                    })
+                    })
+//                }else{
+//                  res.render('index', {
+//                   })
+//                }
+                    
+//            })
+        })
+    }else{
+        res.redirect('/')
+        
+    }
+        
+
+    
+};
+
+function encuestavalida(encuestas) {
+    
+}
 
 controller.se2 =  (req, res) => {
     var autenticado=req.isAuthenticated()

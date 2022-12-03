@@ -13,6 +13,8 @@ router.get('/logout', loginController.out)
 router.get('/sesionad2', loginController.se)
 router.get('/olvidocontra', loginController.olv)
 router.get('/sesionen2', loginController.se2)
+router.get('/activas', loginController.activas)
+router.get('/finalizadas', loginController.finalizadas)
 router.post('/sesionen',passport.authenticate('local',{
     successRedirect:'/sesionen2',
     failureRedirect: '/',

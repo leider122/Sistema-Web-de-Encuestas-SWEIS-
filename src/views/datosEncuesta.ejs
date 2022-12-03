@@ -16,13 +16,24 @@ background-size: 100%;'>
 
 	<div  id="banner" class="container-fluid">
 		<div class="row ml-5">
-			<div class="col-md-5 text-white text-center">
+			<div class="col-md-3 text-white text-center">
 				<a href="https://ingsistemas.cloud.ufps.edu.co/"><img src="../../images/logo.png" class="d-block" alt='...' height="70px" width="70px"></a>
 			</div>
-				<div id="fuente" class="col-md-5 text-white text-right"><br>	
-					<a href="/poblacion"><button type="button" onclick ="" class="btn text-white" style="font-family:Gill Sans; font-size: 20px;">Poblaciones</button></a>			
-					<a href="/sesionad2"><button type="button" onclick ="" class="btn text-white" style="font-family:Gill Sans; font-size: 20px;">Encuestas</button></a> 
-				</div>				
+			<div id="fuente" class="col-md-6 text-white text-right"><br>	
+				<a href="/poblacion"><button type="button" onclick ="" class="btn text-white" style="font-family:Gill Sans; font-size: 20px;">Poblaciones</button></a>
+			</div>	
+			<div id="fuente" class="col-md-1 mr-3 text-white text-right"><br>	
+				
+			<div class="dropdown" style="align-right">
+				<button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn text-white dropdown-toggle" style="font-family: Gill Sans; font-size: 20px;">Encuestas</button>
+			<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+				<a href="/sesionad2"><button type="button" onclick ="" class="btn">Todas</button></a> <br>
+				<a href="/activas"><button type="button" onclick ="" class="btn">Activas</button></a> <br>
+				<a href="/finalizadas"><button type="button" onclick ="" class="btn">Finalizadas</button></a> 
+			</div>
+		</div>
+				
+			</div>					
 				<div class="col-md-1 mt-4">
 				<div class="dropdown" style="align-right">
 						<button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn text-white dropdown-toggle" style="font-family: Gill Sans; font-size: 20px;"><%= email.split('@')[0] %></button>
