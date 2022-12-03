@@ -290,6 +290,54 @@ controller.finalizadas =  (req, res) => {
     
 };
 
+controller.programadas =  (req, res) => {
+    //
+    var autenticado=req.isAuthenticated()
+    
+       if(autenticado){
+        console.log(req.user)
+//            const data = req.body;
+        req.getConnection((error, conn) =>{
+//            conn.query('Select * from administrador', (err, rows) =>{
+    
+//            if(data.correo.toString()==rows[0].correo&&data.contrasena.toString()==rows[0].contrasena4){
+                    conn.query('SELECT * FROM encuesta where fecha_publicacion>"'+getFechaHoy()+'" order by id_encuesta', (err, rows) =>{
+                        conn.query('SELECT e.id_encuesta, COUNT(ec.id_encuesta) as "cantidad" from encuesta e left join encuesta_contestada ec on ec.id_encuesta=e.id_encuesta where fecha_publicacion>"'+getFechaHoy()+'" GROUP by e.id_encuesta order by e.id_encuesta', (err, cantr) =>{
+                            conn.query('SELECT e.id_encuesta,p.id_poblacion,count(ep.id_encuestado_poblacion) as "cantidad" from encuesta e join poblacion p on p.id_poblacion=e.población join encuestado_poblacion ep on p.id_poblacion=ep.id_poblacion where fecha_publicacion>"'+getFechaHoy()+'" group by e.id_encuesta', (err, cantp) =>{
+                            //let Evalidas=encuestavalida(cantp,cantr);
+
+
+                        if (err) {
+                            res.json(err);
+                        } else {
+                            res.render('inicio', {
+                                encuestas:rows,
+                                email: req.user.email,
+                                cantr:cantr,
+                                cantp:cantp,
+                                menssge:req.flash('inicio')
+                            })
+                            
+                        }
+                    })
+                    })
+                    })
+//                }else{
+//                  res.render('index', {
+//                   })
+//                }
+                    
+//            })
+        })
+    }else{
+        res.redirect('/')
+        
+    }
+        
+
+    
+};
+
 function encuestavalida(encuestas) {
     
 }
