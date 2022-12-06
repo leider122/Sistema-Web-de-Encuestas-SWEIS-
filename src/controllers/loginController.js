@@ -4,9 +4,15 @@ var transport = require('../email/mailer.js');
 
 
 controller.mostrar =  (req, res) => {
-  //  var autenticado=req.isAuthenticated()
-    //if(autenticado){
-        
+    var autenticado=req.isAuthenticated()
+    if(autenticado){
+        var type=req.user.type;
+        if(type==1){
+            res.redirect('/sesionad2')
+        }else{
+            res.redirect('/sesionen2')
+        }
+}else{
         req.getConnection((error, conn) =>{
             conn.query('', (err, rows) =>{
                     res.render('index', {
@@ -14,9 +20,7 @@ controller.mostrar =  (req, res) => {
                     })
             })
         })
-//}else{
-  //      res.redirect('/')
-//}
+}
     
 };
 
